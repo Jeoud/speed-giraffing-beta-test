@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speed-Giraffing Beta Test — Résultats</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --giraffe-orange: #E8A856;
+            --giraffe-brown: #8B5A2B;
+            --giraffe-cream: #FDF6E3;
+            --giraffe-dark: #3D2914;
+            --accent-coral: #E07B53;
+            --accent-sage: #8FAE7D;
+            --accent-sky: #6B9AC4;
+            --text-primary: #2D2013;
+            --text-secondary: #6B5744;
+            --bg-warm: #FFFBF5;
+            --card-bg: #FFFFFF;
+            --shadow-soft: 0 4px 20px rgba(139, 90, 43, 0.08);
+            --shadow-hover: 0 8px 40px rgba(139, 90, 43, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--bg-warm);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--giraffe-cream) 0%, #FFF8ED 50%, var(--bg-warm) 100%);
+            padding: 4rem 2rem 6rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(232, 168, 86, 0.15) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(143, 174, 125, 0.12) 0%, transparent 70%);
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 20px) rotate(5deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .emoji-badge {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            color: var(--giraffe-dark);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .stats-hero {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .stat-hero-item {
+            text-align: center;
+        }
+
+        .stat-hero-number {
+            font-family: 'Fraunces', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--giraffe-orange);
+            line-height: 1;
+        }
+
+        .stat-hero-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            font-family: 'Fraunces', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--giraffe-dark);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--giraffe-orange), transparent);
+            margin-left: 1rem;
+        }
+
+        /* Verdict Section */
+        .verdict-section {
+            background: linear-gradient(180deg, var(--bg-warm) 0%, white 100%);
+        }
+
+        .verdict-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: var(--shadow-soft);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .verdict-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-sage), var(--giraffe-orange), var(--accent-coral));
+        }
+
+        .verdict-text {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-sage);
+            margin-bottom: 1rem;
+        }
+
+        .verdict-detail {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .verdict-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .verdict-stat {
+            text-align: center;
+        }
+
+        .verdict-stat-value {
+            font-family: 'Fraunces', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .verdict-stat-value.positive { color: var(--accent-sage); }
+        .verdict-stat-value.neutral { color: var(--giraffe-orange); }
+
+        .verdict-stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .chart-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--giraffe-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--giraffe-cream);
+        }
+
+        .chart-container {
+            position: relative;
+            height: 280px;
+        }
+
+        /* Key Insights */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .insight-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-soft);
+            border-left: 4px solid var(--giraffe-orange);
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateX(4px);
+            border-left-color: var(--accent-sage);
+        }
+
+        .insight-card.positive { border-left-color: var(--accent-sage); }
+        .insight-card.improvement { border-left-color: var(--accent-coral); }
+        .insight-card.idea { border-left-color: var(--accent-sky); }
+
+        .insight-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .insight-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--giraffe-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .insight-value {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Verbatims Section */
+        .verbatims-section {
+            background: linear-gradient(180deg, white 0%, var(--giraffe-cream) 100%);
+        }
+
+        .verbatim-category {
+            margin-bottom: 3rem;
+        }
+
+        .verbatim-category-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--giraffe-dark);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .verbatim-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .verbatim-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-soft);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .verbatim-card:hover {
+            transform: scale(1.02);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .verbatim-card::before {
+            content: '"';
+            font-family: 'Fraunces', serif;
+            font-size: 4rem;
+            color: var(--giraffe-orange);
+            opacity: 0.2;
+            position: absolute;
+            top: 0;
+            left: 1rem;
+            line-height: 1;
+        }
+
+        .verbatim-text {
+            font-size: 1rem;
+            color: var(--text-primary);
+            line-height: 1.7;
+            position: relative;
+            z-index: 1;
+            padding-left: 0.5rem;
+        }
+
+        .verbatim-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--giraffe-cream);
+        }
+
+        .verbatim-role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--giraffe-cream);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        /* Highlight Card */
+        .highlight-card {
+            background: linear-gradient(135deg, var(--giraffe-dark) 0%, #5D3A1F 100%);
+            border-radius: 24px;
+            padding: 3rem;
+            color: white;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(232, 168, 86, 0.3) 0%, transparent 70%);
+        }
+
+        .highlight-card h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .highlight-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            position: relative;
+        }
+
+        /* Feature Requests */
+        .features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .feature-tag {
+            background: white;
+            border: 2px solid var(--giraffe-cream);
+            border-radius: 30px;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-tag:hover {
+            border-color: var(--giraffe-orange);
+            background: var(--giraffe-cream);
+        }
+
+        .feature-count {
+            background: var(--giraffe-orange);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .footer-emoji {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { padding: 3rem 1.5rem 4rem; }
+            .stats-hero { gap: 2rem; }
+            .stat-hero-number { font-size: 2.5rem; }
+            .verdict-stats { gap: 2rem; }
+            .charts-grid { grid-template-columns: 1fr; }
+            .section { padding: 3rem 0; }
+            .container { padding: 0 1.25rem; }
+        }
+
+        /* Animations on scroll */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="emoji-badge">🦒</div>
+            <h1>Speed-Giraffing</h1>
+            <p class="hero-subtitle">Résultats du Beta Test — Janvier 2026</p>
+            
+            <div class="stats-hero">
+                <div class="stat-hero-item fade-in delay-1">
+                    <div class="stat-hero-number">9</div>
+                    <div class="stat-hero-label">Testeurs</div>
+                </div>
+                <div class="stat-hero-item fade-in delay-2">
+                    <div class="stat-hero-number">4.6<span style="font-size: 1.5rem">/5</span></div>
+                    <div class="stat-hero-label">Clarté inscription</div>
+                </div>
+                <div class="stat-hero-item fade-in delay-3">
+                    <div class="stat-hero-number">100%</div>
+                    <div class="stat-hero-label">Se sentent en sécurité</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Verdict Section -->
+    <section class="section verdict-section">
+        <div class="container">
+            <div class="verdict-card fade-in">
+                <div class="verdict-text">✅ On continue !</div>
+                <p class="verdict-detail">Les beta-testeurs semblent en majorité convaincus par le potentiel de Speed-Giraffing, avec des pistes d'amélioration claires identifiées.</p>
+                
+                <div class="verdict-stats">
+                    <div class="verdict-stat">
+                        <div class="verdict-stat-value positive">78%</div>
+                        <div class="verdict-stat-label">Veulent continuer</div>
+                    </div>
+                    <div class="verdict-stat">
+                        <div class="verdict-stat-value positive">89%</div>
+                        <div class="verdict-stat-label">Expérience concluante</div>
+                    </div>
+                    <div class="verdict-stat">
+                        <div class="verdict-stat-value neutral">22%</div>
+                        <div class="verdict-stat-label">Hésitent encore</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">📊 Les chiffres clés</h2>
+            
+            <div class="charts-grid">
+                <div class="chart-card fade-in delay-1">
+                    <h3 class="chart-title">L'expérience est-elle concluante ?</h3>
+                    <div class="chart-container">
+                        <canvas id="experienceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card fade-in delay-2">
+                    <h3 class="chart-title">Rôles des testeurs</h3>
+                    <div class="chart-container">
+                        <canvas id="rolesChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card fade-in delay-3">
+                    <h3 class="chart-title">L'interface est-elle intuitive ?</h3>
+                    <div class="chart-container">
+                        <canvas id="intuitiveChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="chart-card fade-in delay-4">
+                    <h3 class="chart-title">Sentiment de sécurité / bienveillance</h3>
+                    <div class="chart-container">
+                        <canvas id="securityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Insights -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">💡 Ce qui a le plus plu</h2>
+            
+            <div class="insights-grid">
+                <div class="insight-card positive fade-in delay-1">
+                    <div class="insight-icon">⏰</div>
+                    <div class="insight-title">Le rythme asynchrone</div>
+                    <div class="insight-value">Cité 4 fois — Pouvoir prendre le temps sur plusieurs jours</div>
+                </div>
+                
+                <div class="insight-card positive fade-in delay-2">
+                    <div class="insight-icon">🎭</div>
+                    <div class="insight-title">L'anonymat possible</div>
+                    <div class="insight-value">Cité 4 fois — Déposer un sujet de façon anonyme</div>
+                </div>
+                
+                <div class="insight-card positive fade-in delay-3">
+                    <div class="insight-icon">✨</div>
+                    <div class="insight-title">La simplicité</div>
+                    <div class="insight-value">Cité 4 fois — Interface simple et accessible</div>
+                </div>
+                
+                <div class="insight-card positive fade-in delay-4">
+                    <div class="insight-icon">🛡️</div>
+                    <div class="insight-title">Hors GAFAM</div>
+                    <div class="insight-value">Cité 3 fois — Indépendance vis-à-vis des géants du web</div>
+                </div>
+            </div>
+
+            <div class="highlight-card">
+                <h3>💬 Le verbatim coup de cœur</h3>
+                <p>« Le fait que les gens prennent le temps et qu'en très peu de temps on se sente reliés, connectés par le cœur »</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Verbatims Section -->
+    <section class="section verbatims-section">
+        <div class="container">
+            <h2 class="section-title">🗣️ Vos retours détaillés</h2>
+            
+            <!-- Freins identifiés -->
+            <div class="verbatim-category">
+                <h3 class="verbatim-category-title">⚠️ Les freins à améliorer</h3>
+                <div class="verbatim-grid">
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">Le fait que je n'ai pas eu de notif comme sur WhatsApp fait que c'est décousu, donc on perd la dynamique. Pour moi, autant s'appeler.</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Déposant</span>
+                        </div>
+                    </div>
+                    
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">J'ai été un peu perturbée par le fait qu'il n'y ait pas de notification sur le fait que mon retour avait été reçu. Je suis retournée sur la plateforme plusieurs fois et voyant qu'il n'y avait pas de réponse... finalement prise par autre chose j'ai oublié.</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Répondant</span>
+                        </div>
+                    </div>
+                    
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">Peut-être expliquer comment ça fonctionne : que tu dois attendre que le déposant réponde pour voir les autres répondre, que le déposant doit clôturer à un moment, etc.</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Les deux</span>
+                        </div>
+                    </div>
+                    
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">Il peut y avoir un "fossé" temporel entre le moment où on se dit "j'ai l'espace pour offrir de l'écoute" et le moment où c'est notre tour (mais qu'on est pris dans autre chose par la vie quotidienne).</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Répondant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suggestions -->
+            <div class="verbatim-category">
+                <h3 class="verbatim-category-title">💡 Les suggestions constructives</h3>
+                <div class="verbatim-grid">
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">Auto-modération : s'autoriser à signaler à l'autre si on se sent pas écouté comme on aimerait (+sécurité et co-apprentissage approfondi de l'écoute empathique)</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Les deux</span>
+                        </div>
+                    </div>
+                    
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">Je me suis demandé s'il ne fallait pas un rappel synthétique des "règles" CNV partagées, surtout si le speed-dating girafe est ouvert hors I&C</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Déposant</span>
+                        </div>
+                    </div>
+                    
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">La possibilité de ne pas figer le nombre de réponses par tour pour les répondants</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Les deux</span>
+                        </div>
+                    </div>
+                    
+                    <div class="verbatim-card fade-in">
+                        <p class="verbatim-text">La possibilité de mettre son sujet en public pour inspirer les autres</p>
+                        <div class="verbatim-meta">
+                            <span class="verbatim-role">Déposant</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Requests -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">🚀 Fonctionnalités demandées</h2>
+            
+            <div class="chart-card">
+                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Classées par nombre de mentions</p>
+                <div class="features-list">
+                    <div class="feature-tag">
+                        🔔 Notifications des réponses
+                        <span class="feature-count">6</span>
+                    </div>
+                    <div class="feature-tag">
+                        📖 Tutoriel / guide du fonctionnement
+                        <span class="feature-count">2</span>
+                    </div>
+                    <div class="feature-tag">
+                        ⚙️ Auto-modération / signalement bienveillant
+                        <span class="feature-count">2</span>
+                    </div>
+                    <div class="feature-tag">
+                        📜 Rappel des règles CNV
+                        <span class="feature-count">1</span>
+                    </div>
+                    <div class="feature-tag">
+                        🌐 Sujets publics (pour inspiration)
+                        <span class="feature-count">1</span>
+                    </div>
+                    <div class="feature-tag">
+                        ✏️ Écriture inclusive
+                        <span class="feature-count">1</span>
+                    </div>
+                    <div class="feature-tag">
+                        🔄 Tours flexibles (non figés)
+                        <span class="feature-count">1</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section class="section">
+        <div class="container">
+            <div class="highlight-card" style="background: linear-gradient(135deg, var(--accent-sage) 0%, #6B9E5C 100%);">
+                <h3>🎯 En résumé : 3 priorités claires</h3>
+                <p style="max-width: 800px;">
+                    <strong>1.</strong> Ajouter un système de notifications pour maintenir l'engagement<br>
+                    <strong>2.</strong> Créer un mini-guide explicatif du fonctionnement<br>
+                    <strong>3.</strong> Améliorer l'intuitivité globale de l'interface
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-emoji">🦒💚</div>
+        <p>Beta test Speed-Giraffing — 9 testeurs du 12 au 16 janvier 2026</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Merci à tous les participants pour ces retours précieux !</p>
+    </footer>
+
+    <script>
+        // Configuration globale Chart.js
+        Chart.defaults.font.family = "'Source Sans 3', sans-serif";
+        Chart.defaults.plugins.legend.labels.usePointStyle = true;
+        Chart.defaults.plugins.legend.labels.padding = 20;
+
+        const colors = {
+            orange: '#E8A856',
+            sage: '#8FAE7D',
+            coral: '#E07B53',
+            sky: '#6B9AC4',
+            brown: '#8B5A2B',
+            cream: '#FDF6E3'
+        };
+
+        // 1. Expérience Chart
+        new Chart(document.getElementById('experienceChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Gros potentiel, vrai besoin', 'Plutôt concluante', 'Légèrement concluante'],
+                datasets: [{
+                    data: [4, 4, 1],
+                    backgroundColor: [colors.sage, colors.orange, colors.coral],
+                    borderWidth: 0,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // 2. Rôles Chart
+        new Chart(document.getElementById('rolesChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Déposant', 'Les deux', 'Répondant'],
+                datasets: [{
+                    data: [4, 3, 2],
+                    backgroundColor: [colors.orange, colors.sage, colors.sky],
+                    borderRadius: 8,
+                    barThickness: 50
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { 
+                        beginAtZero: true,
+                        max: 5,
+                        grid: { display: false },
+                        ticks: { stepSize: 1 }
+                    },
+                    y: { 
+                        grid: { display: false },
+                        ticks: { font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // 3. Intuitivité Chart
+        new Chart(document.getElementById('intuitiveChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Oui', 'Moyen'],
+                datasets: [{
+                    data: [4, 5],
+                    backgroundColor: [colors.sage, colors.orange],
+                    borderWidth: 0,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // 4. Sécurité Chart
+        new Chart(document.getElementById('securityChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Totalement oui', 'Plutôt oui'],
+                datasets: [{
+                    data: [6, 3],
+                    backgroundColor: [colors.sage, colors.sky],
+                    borderWidth: 0,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, font: { size: 12 } }
+                    }
+                }
+            }
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
